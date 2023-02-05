@@ -18,9 +18,10 @@ app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/notes.html"))
 });
 // gets the notes json.so it can display on the html notes page
-app.get("/api/notes",(req,res) =>{
-    res.sendFile(path.join(__dirname, "./db/db.json"))
-})
+app.get("/api/notes", (req,res) => {
+    res.json(db);
+});
+
 // when a note is saved  a newNote object is created and sent to the db.json. 
 app.post("/api/notes", (req, res) => {
     const { title, text } = req.body;
