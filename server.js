@@ -13,14 +13,15 @@ const path = require('path');
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/index.html"))
 });
-
+// displays html for notes
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "/public/notes.html"))
 });
-// gets the notes json.
-app.get("/api/note",(req,res) =>{
-    res.sendFile(path.join(__dirname, "../db/db.json"))
+// gets the notes json.so it can display on the html notes page
+app.get("/api/notes",(req,res) =>{
+    res.sendFile(path.join(__dirname, "./db/db.json"))
 })
+// when a note is saved  a newNote object is created and sent to the db.json. 
 app.post("/api/notes", (req, res) => {
     const { title, text } = req.body;
     if (title && text) {
@@ -30,17 +31,17 @@ app.post("/api/notes", (req, res) => {
             note_id: uniqid(),
         };
 
-        // get notes
+        // get notes the current notes and parses it
         fs.readFile("./db/db.json", "utf8",(err,data) => {
             if (err){
                 console.error(err);
             } else{
                 // notes to a string
                 const parseNotes = JSON.parse(data);
-
+//              takes newNote and adds it to the value of db
                 parseNotes.push(newNote)
 
-                // write the file with newNote
+                // write the file with parsedNotes which will include the new note
                 fs.writeFile(
                     './db/db.json',JSON.stringify(parseNotes,"utf8", (err)=> {}),
                     (writeErr) => 
@@ -51,19 +52,7 @@ app.post("/api/notes", (req, res) => {
         })
 }
 })
-    //     // convert data to a string to be saved
-    //    const ToFile =(destination,content)=>
-    //    fs.writeFile()
-
-    //     res.status(200).json(response);
-
-
-    // } else {
-    //     res.status(406).json("did not save")
-    // }
-
-
-
+   
 
 
 
