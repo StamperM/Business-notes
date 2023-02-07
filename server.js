@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 const path = require('path');
+let db = require("./db/db.json");
 
 
 // displays homepage using index.html
